@@ -1,0 +1,101 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYT Mini Leaderboard Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+</head>
+<body>
+<br>
+<div class="container-fluid">
+<h1 class="display-3">How badly is {{low_scorer}}* beating the crowd?</h1><small class="text-muted">*Player's name updates to who has the lowest median in the preceding week</small>
+<br>
+
+
+<br>
+<hr>
+<br>
+
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<br>
+<br>
+<br>
+
+
+{{pivoted_median|safe}}
+<caption>Values in table/graph above are in seconds</caption>
+<br>
+<br>
+<h3>
+  Data last refreshed on: {{max_date}}.
+  <small class="text-muted">New data will be available at 5 pm CT on Saturday and Sunday and at 9 pm CT on other days.</small>
+</h3>
+<p></p>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+  const labels = [{% for i in date_list %}"{{ i }}",{% endfor %}];
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Seibert',
+      backgroundColor: '#26547c',
+      borderColor: '#26547c',
+      data: [{% for i in seibert_scores %}{{ i }},{% endfor %}],
+    },
+    {
+      label: 'dirk orozco',
+      backgroundColor: '#ef476f',
+      borderColor: '#ef476f',
+      data: [{% for i in dirk_scores %}{{ i }},{% endfor %}],
+    },
+    {
+      label: 'Joshtreg',
+      backgroundColor: '#ffd166',
+      borderColor: '#ffd166',
+      data: [{% for i in josh_scores %}{{ i }},{% endfor %}],
+    },
+    {
+      label: 'E-thousand',
+      backgroundColor: '#06d6a0',
+      borderColor: '#06d6a0',
+      data: [{% for i in ellie_scores %}{{ i }},{% endfor %}],
+    },
+    ]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+</script>
+
+<script>
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
+
+
+
+</body>
+</html>

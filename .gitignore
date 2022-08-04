@@ -1,0 +1,4 @@
+*.sqlite3
+*ipynb_checkpoints/
+mini_data.csv
+cookie.txt
